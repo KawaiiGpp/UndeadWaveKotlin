@@ -1,0 +1,6 @@
+name: UndeadWave
+version: ${version}
+authors: [Yukino_Akira]
+main: com.akira.undeadwave.UndeadWave
+api-version: 1.20
+depend: [AkiraCore]
