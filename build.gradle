@@ -10,6 +10,7 @@ def serverFolder = 'D:/Server/PaperDebug'
 def libsFolder = serverFolder + '/libraries'
 def versionsFolder = serverFolder + '/versions'
 def pluginsFolder = serverFolder + '/plugins'
+def pluginsDepFolder = serverFolder + '/plugins_dep'
 def coreFile = 'AkiraCoreKotlin.jar'
 
 repositories {
@@ -21,7 +22,7 @@ dependencies {
 
     compileOnly fileTree(dir: libsFolder, include: ['**/*.jar'])
     compileOnly fileTree(dir: versionsFolder, include: ['**/*.jar'])
-    compileOnly files(pluginsFolder + '/' + coreFile)
+    compileOnly files(pluginsDepFolder + '/' + coreFile)
 }
 
 shadowJar {
