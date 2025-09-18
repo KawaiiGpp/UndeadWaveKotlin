@@ -6,8 +6,6 @@ import com.akira.undeadwave.config.ArenaPresetConfig
 import com.akira.undeadwave.game.ArenaPreset
 
 class UndeadWave : AkiraPlugin() {
-    val configManager = ConfigManager()
-
     companion object {
         lateinit var instance: UndeadWave
             private set
@@ -16,6 +14,8 @@ class UndeadWave : AkiraPlugin() {
     init {
         instance = this
     }
+
+    val configManager = ConfigManager()
 
     override fun onEnable() {
         super.onEnable()
