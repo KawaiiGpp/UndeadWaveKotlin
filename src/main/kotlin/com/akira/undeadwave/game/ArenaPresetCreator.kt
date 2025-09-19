@@ -18,6 +18,7 @@ class ArenaPresetCreator {
             predicate: (T) -> Pair<Boolean, String> = { true to "" }
         ): String? {
             if (value == null) return "参数 $name 未指定。"
+            if (value is Collection<*> && value.isEmpty()) return "列表参数 $name 为空。"
 
             val (success, reason) = predicate(value)
             if (!success) return "参数 $name 不合规：${reason}。"
