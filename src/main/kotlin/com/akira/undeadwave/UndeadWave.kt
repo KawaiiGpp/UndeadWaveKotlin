@@ -23,7 +23,7 @@ class UndeadWave : AkiraPlugin() {
         configManager.register("ArenaPreset", ArenaPresetConfig(this))
         configManager.initializeAll()
 
-        ArenaPreset.initializeFromConfig()
+        ArenaPreset.loadFromConfig()
     }
 
     override fun onDisable() {
