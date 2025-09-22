@@ -26,8 +26,17 @@ class ArenaPreset(
     companion object : Manager<String, ArenaPreset>() {
         val config get() = UndeadWave.instance.configManager.get("ArenaPreset") as ArenaPresetConfig
 
+        override fun register(key: String, element: ArenaPreset) {
+            require(isWorldFree(element.world)) { "World ${element.world.name} already registered." }
+            super.register(key, element)
+        }
+
         fun loadFromConfig() = clear().also { config.getAll().forEach(this::register) }
 
         fun saveToConfig() = config.removeAll().also { config.setAll(container) }
+
+        fun isWorldRegistered(world: World): Boolean = container.any { it.value.world == world }
+
+        fun isWorldFree(world: World): Boolean = container.all { it.value.world != world }
     }
 }

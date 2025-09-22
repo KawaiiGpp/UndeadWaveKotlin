@@ -4,3 +4,13 @@ authors: [Yukino_Akira]
 main: com.akira.undeadwave.UndeadWave
 api-version: 1.20
 depend: [AkiraCore]
+
+commands:
+  arenapreset:
+    permission: undeadwave.admin
+
+permissions:
+  undeadwave.user:
+    default: true
+  undeadwave.admin:
+    default: op

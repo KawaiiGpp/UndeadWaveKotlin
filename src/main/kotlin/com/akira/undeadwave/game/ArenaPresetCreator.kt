@@ -1,8 +1,10 @@
 package com.akira.undeadwave.game
 
+import com.akira.core.api.Manager
 import com.akira.core.api.util.math.isPositive
 import org.bukkit.Location
 import org.bukkit.World
+import java.util.*
 
 class ArenaPresetCreator {
     var totalRounds: Int? = null
@@ -42,4 +44,6 @@ class ArenaPresetCreator {
             requireNotNull(enemySpawnpoints)
         ).let { ArenaPresetCreatorResult.createSuccess(it) }
     }
+
+    companion object : Manager<UUID, ArenaPresetCreator>()
 }
