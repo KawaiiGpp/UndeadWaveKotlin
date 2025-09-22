@@ -33,7 +33,7 @@ class ArenaPresetConfig(plugin: UndeadWave) : ConfigFile(plugin, "arena_preset")
     fun set(arenaName: String, preset: ArenaPreset) {
         config.set("$arenaName.total_rounds", preset.totalRounds)
         config.set("$arenaName.enemy_multiplier", preset.enemyMultiplier)
-        config.set("$arenaName.world", preset.world)
+        config.set("$arenaName.world", preset.world.name)
         config.set("$arenaName.spawnpoint", preset.spawnpoint)
 
         preset.enemySpawnpoints.forEachIndexed { i, loc -> config.set("$arenaName.enemy.spawnpoints.$i", loc) }
