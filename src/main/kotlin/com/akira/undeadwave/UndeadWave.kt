@@ -1,10 +1,6 @@
 package com.akira.undeadwave
 
 import com.akira.core.api.AkiraPlugin
-import com.akira.core.api.config.ConfigManager
-import com.akira.undeadwave.command.ArenaPresetCommand
-import com.akira.undeadwave.config.ArenaPresetConfig
-import com.akira.undeadwave.game.ArenaPreset
 
 class UndeadWave : AkiraPlugin() {
     companion object {
@@ -14,25 +10,5 @@ class UndeadWave : AkiraPlugin() {
 
     init {
         instance = this
-    }
-
-    val configManager = ConfigManager()
-
-    override fun onEnable() {
-        super.onEnable()
-
-        configManager.register("ArenaPreset", ArenaPresetConfig(this))
-        configManager.initializeAll()
-
-        ArenaPreset.loadFromConfig()
-
-        setupCommand(ArenaPresetCommand(this))
-    }
-
-    override fun onDisable() {
-        super.onDisable()
-
-        ArenaPreset.saveToConfig()
-        configManager.saveAll()
     }
 }
