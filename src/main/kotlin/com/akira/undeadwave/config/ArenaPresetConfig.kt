@@ -12,7 +12,7 @@ class ArenaPresetConfig(plugin: UndeadWave) : ConfigFile(plugin, "arena_preset")
     }
 
     fun load(name: String): ArenaPreset =
-        requireNotNull(this.get(name)) { "Failed loading Arena Preset $name." }
+        requireNotNull(this.get(name)) { "Failed loading Arena Preset $name from config." }
 
     fun loadAll(): List<ArenaPreset> {
         val presets = mutableListOf<ArenaPreset>()

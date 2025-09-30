@@ -70,7 +70,7 @@ class ArenaPreset {
     private fun registerElement(element: Element<*>) {
         val name = element.name
 
-        require(!elements.containsKey(name)) { "Element $name already existing." }
+        require(!elements.containsKey(name)) { "Preset element $name already existing." }
         map[name] = element
     }
 
@@ -83,7 +83,7 @@ class ArenaPreset {
         private var rawValue: T? = null
     ) {
         var value
-            get() = requireNotNull(rawValue) { "Value for element $name not initialized." }
+            get() = requireNotNull(rawValue) { "Value for preset element $name not initialized." }
             private set(value) = value.let { rawValue = value }
 
         val initialized get() = rawValue != null
@@ -91,12 +91,12 @@ class ArenaPreset {
         fun validate(): PredicateResult<T> = predicate.test(rawValue)
 
         fun serialize(section: ConfigurationSection) {
-            require(initialized) { "Element $name not initialized." }
+            require(initialized) { "Preset element $name not initialized." }
             serializer(value, section)
         }
 
         fun deserialize(section: ConfigurationSection) {
-            require(!initialized) { "Element $name already initialized." }
+            require(!initialized) { "Preset element $name already initialized." }
             requireNotNull(deserializer(section)) { "Failed deserializing $name." }.let { value = it }
         }
     }
