@@ -1,23 +1,18 @@
 package com.akira.undeadwave.main.preset
 
-import com.akira.core.api.Manager
+import com.akira.core.api.EnhancedManager
 import com.akira.core.api.util.general.EnhancedPredicate
 import com.akira.core.api.util.general.PredicateResult
 import com.akira.core.api.util.world.deserializeLocation
 import com.akira.core.api.util.world.deserializeLocationNullable
 import com.akira.core.api.util.world.serializeLocation
+import com.akira.undeadwave.UndeadWave
 import org.bukkit.Bukkit
 import org.bukkit.configuration.ConfigurationSection
 
-class ArenaPreset {
+class ArenaPreset(val name: String) {
     private val map = mutableMapOf<String, Element<*>>()
     val elements get() = map.toMap()
-
-    val name = createElement(
-        "name", "内部名称",
-        { string, section -> section.set("name", string) },
-        { section -> section.getString("name") },
-        EnhancedPredicate("不可为空白") { it.isNotBlank() })
 
     val displayName = createElement(
         "display_name", "名称",
@@ -101,5 +96,35 @@ class ArenaPreset {
         }
     }
 
-    companion object: Manager<String, ArenaPreset>()
+    companion object : EnhancedManager<ArenaPreset>() {
+        override fun transform(element: ArenaPreset): String = element.name
+
+        fun loadFromConfig() {
+            val plugin = UndeadWave.instance
+
+            runCatching { plugin.configArenaPreset.loadAll().forEach { map[it.name] = it } }
+                .onSuccess {
+                    if (container.isNotEmpty())
+                        plugin.logInfo("已从配置文件加载 ${container.size} 个地图预设。")
+                }
+                .onFailure {
+                    plugin.logError("从配置文件加载地图预设时发生异常。")
+                    it.printStackTrace()
+                }
+        }
+
+        fun saveToConfig() {
+            val plugin = UndeadWave.instance
+
+            runCatching { plugin.configArenaPreset.saveAll(container.values) }
+                .onSuccess {
+                    if (container.isNotEmpty())
+                        plugin.logInfo("已保存 ${container.size} 个地图预设至配置文件。")
+                }
+                .onFailure {
+                    plugin.logError("保存地图预设至配置文件时发生异常。")
+                    it.printStackTrace()
+                }
+        }
+    }
 }

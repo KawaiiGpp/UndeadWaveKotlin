@@ -8,7 +8,7 @@ class ArenaPresetConfig(plugin: UndeadWave) : ConfigFile(plugin, "arena_preset")
     fun get(name: String): ArenaPreset? {
         val section = config.getConfigurationSection(name) ?: return null
 
-        return ArenaPreset().apply { elements.forEach { it.value.deserialize(section) } }
+        return ArenaPreset(name).apply { elements.forEach { it.value.deserialize(section) } }
     }
 
     fun load(name: String): ArenaPreset =
@@ -22,11 +22,11 @@ class ArenaPresetConfig(plugin: UndeadWave) : ConfigFile(plugin, "arena_preset")
     }
 
     fun save(preset: ArenaPreset) {
-        val name = preset.name.value
+        val name = preset.name
         val section = config.getConfigurationSection(name) ?: config.createSection(name)
 
         preset.elements.forEach { it.value.serialize(section) }
     }
 
-    fun saveAll(presets: List<ArenaPreset>) = presets.forEach { this.save(it) }
+    fun saveAll(presets: Collection<ArenaPreset>) = presets.forEach { this.save(it) }
 }
