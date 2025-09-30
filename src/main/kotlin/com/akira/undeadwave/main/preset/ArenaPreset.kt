@@ -79,7 +79,7 @@ class ArenaPreset(val name: String) {
     ) {
         var value
             get() = requireNotNull(rawValue) { "Value for preset element $name not initialized." }
-            private set(value) = value.let { rawValue = value }
+            set(value) = value.let { rawValue = value }
 
         val initialized get() = rawValue != null
 
@@ -102,7 +102,7 @@ class ArenaPreset(val name: String) {
         fun loadFromConfig() {
             val plugin = UndeadWave.instance
 
-            runCatching { plugin.configArenaPreset.loadAll().forEach { map[it.name] = it } }
+            runCatching { plugin.configArenaPreset.loadAll().forEach(this::register) }
                 .onSuccess {
                     if (container.isNotEmpty())
                         plugin.logInfo("已从配置文件加载 ${container.size} 个地图预设。")
