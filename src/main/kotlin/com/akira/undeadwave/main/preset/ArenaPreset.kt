@@ -3,11 +3,14 @@ package com.akira.undeadwave.main.preset
 import com.akira.core.api.EnhancedManager
 import com.akira.core.api.util.general.EnhancedPredicate
 import com.akira.core.api.util.general.PredicateResult
+import com.akira.core.api.util.general.ValidateFeedback
 import com.akira.core.api.util.world.deserializeLocation
 import com.akira.core.api.util.world.deserializeLocationNullable
 import com.akira.core.api.util.world.serializeLocation
+import com.akira.core.api.util.world.worldNonNull
 import com.akira.undeadwave.UndeadWave
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
 
 class ArenaPreset(val name: String) {
@@ -50,6 +53,20 @@ class ArenaPreset(val name: String) {
         { section -> section.getStringList("enemy_spawnpoints").map { deserializeLocation(it) } },
         EnhancedPredicate("不可为空") { it.isNotEmpty() })
 
+    fun validate(): ValidateFeedback {
+        val feedback = ValidateFeedback()
+
+        elements.values.map { it to it.validate() }.filter { it.second.failure }
+            .forEach { feedback.add("参数 ${it.first.displayName} 异常：${it.second.failureMessage}。") }
+
+        if (feedback.passed) {
+            validateWorld(spawnpoint.displayName, spawnpoint.value)?.let(feedback::add)
+            enemySpawnpoints.value.forEach { validateWorld(enemySpawnpoints.displayName, it)?.let(feedback::add) }
+        }
+
+        return feedback
+    }
+
     private fun <T : Any> createElement(
         name: String,
         displayName: String,
@@ -67,6 +84,13 @@ class ArenaPreset(val name: String) {
 
         require(!elements.containsKey(name)) { "Preset element $name already existing." }
         map[name] = element
+    }
+
+    private fun validateWorld(name: String, location: Location): String? {
+        if (location.worldNonNull == world.value) return null
+
+        val locationInfo = "${location.worldNonNull}:${location.x},${location.y},${location.z}"
+        return "位置 $name 所在世界不一致：$locationInfo。"
     }
 
     class Element<T : Any>(
