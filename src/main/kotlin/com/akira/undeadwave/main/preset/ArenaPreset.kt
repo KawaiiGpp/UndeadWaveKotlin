@@ -1,6 +1,7 @@
 package com.akira.undeadwave.main.preset
 
 import com.akira.core.api.EnhancedManager
+import com.akira.core.api.Manager
 import com.akira.core.api.util.general.EnhancedPredicate
 import com.akira.core.api.util.general.PredicateResult
 import com.akira.core.api.util.general.ValidateFeedback
@@ -12,6 +13,7 @@ import com.akira.undeadwave.UndeadWave
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
+import java.util.*
 
 class ArenaPreset(val name: String) {
     private val map = mutableMapOf<String, Element<*>>()
@@ -21,37 +23,37 @@ class ArenaPreset(val name: String) {
         "display_name", "名称",
         { string, section -> section.set("display_name", string) },
         { section -> section.getString("display_name") },
-        EnhancedPredicate("不可为空白") { it.isNotBlank() })
+        EnhancedPredicate("不可为空白", "未指定") { it.isNotBlank() })
 
     val totalRounds = createElement(
         "total_rounds", "总回合数",
         { int, section -> section.set("total_rounds", int) },
         { section -> section.getInt("total_rounds") },
-        EnhancedPredicate("需为正整数") { it > 0 })
+        EnhancedPredicate("需为正整数", "未指定") { it > 0 })
 
     val enemyMultiplier = createElement(
         "enemy_multiplier", "刷怪量",
         { int, section -> section.set("enemy_multiplier", int) },
         { section -> section.getInt("enemy_multiplier") },
-        EnhancedPredicate("需为正整数") { it > 0 })
+        EnhancedPredicate("需为正整数", "未指定") { it > 0 })
 
     val world = createElement(
         "world", "世界",
         { world, section -> section.set("world", world.name) },
         { section -> section.getString("world")?.let { Bukkit.getWorld(it) } },
-        EnhancedPredicate("") { true })
+        EnhancedPredicate("", "未指定") { true })
 
     val spawnpoint = createElement(
         "spawnpoint", "出生点",
         { location, section -> section.set("spawnpoint", serializeLocation(location)) },
         { section -> section.getString("spawnpoint")?.let { deserializeLocationNullable(it) } },
-        EnhancedPredicate("") { true })
+        EnhancedPredicate("", "未指定") { true })
 
     val enemySpawnpoints = createElement(
         "enemy_spawnpoints", "怪物刷新点",
         { locations, section -> section.set("enemy_spawnpoints", locations.map { serializeLocation(it) }) },
         { section -> section.getStringList("enemy_spawnpoints").map { deserializeLocation(it) } },
-        EnhancedPredicate("不可为空") { it.isNotEmpty() })
+        EnhancedPredicate("不可为空", "未指定") { it.isNotEmpty() })
 
     fun validate(): ValidateFeedback {
         val feedback = ValidateFeedback()
@@ -86,12 +88,9 @@ class ArenaPreset(val name: String) {
         map[name] = element
     }
 
-    private fun validateWorld(name: String, location: Location): String? {
-        if (location.worldNonNull == world.value) return null
-
-        val locationInfo = "${location.worldNonNull}:${location.x},${location.y},${location.z}"
-        return "位置 $name 所在世界不一致：$locationInfo。"
-    }
+    private fun validateWorld(name: String, location: Location): String? =
+        if (location.worldNonNull == world.value) null
+        else "位置 $name 所在世界不一致。"
 
     class Element<T : Any>(
         val name: String,
@@ -120,7 +119,11 @@ class ArenaPreset(val name: String) {
         }
     }
 
+    object Creator : Manager<UUID, ArenaPreset>()
+
     companion object : EnhancedManager<ArenaPreset>() {
+        val internal = ArenaPreset("_internal_")
+
         override fun transform(element: ArenaPreset): String = element.name
 
         fun loadFromConfig() {
