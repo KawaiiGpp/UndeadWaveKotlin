@@ -4,6 +4,7 @@ import com.akira.core.api.AkiraPlugin
 import com.akira.core.api.config.ConfigManager
 import com.akira.undeadwave.command.ArenaPresetCommand
 import com.akira.undeadwave.config.ArenaPresetConfig
+import com.akira.undeadwave.listener.ArenaPresetResetListener
 import com.akira.undeadwave.main.preset.ArenaPreset
 
 class UndeadWave : AkiraPlugin() {
@@ -28,6 +29,7 @@ class UndeadWave : AkiraPlugin() {
         ArenaPreset.loadFromConfig()
 
         setupCommand(ArenaPresetCommand(this))
+        setupListener(ArenaPresetResetListener())
     }
 
     override fun onDisable() {
