@@ -16,6 +16,7 @@ class ArenaPresetCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "arenapr
         registerNode(New())
         registerNode(Delete())
         registerNode(Create())
+        registerNode(Reset())
 
         registerNode(ConfigureValue(ArenaPreset::totalRounds, String::toIntOrNull))
         registerNode(ConfigureValue(ArenaPreset::enemyMultiplier, String::toIntOrNull))
@@ -72,6 +73,22 @@ class ArenaPresetCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "arenapr
             }
 
             ArenaPreset.Creator.unregister(player.uniqueId)
+        }
+    }
+
+    inner class Reset : Operation(
+        arrayOf("reset"),
+        "重置现有的预设模板。"
+    ) {
+        override fun run(player: Player, preset: ArenaPreset, args: Array<String>) {
+            player.sendMessage {
+                Component.text("已重置现有的预设模板，内部名为 ", NamedTextColor.GREEN)
+                    .append(Component.text(preset.name, NamedTextColor.YELLOW))
+                    .append(Component.text("。", NamedTextColor.GREEN))
+            }
+
+            ArenaPreset.Creator.unregister(player.uniqueId)
+            ArenaPreset.Creator.register(player.uniqueId, ArenaPreset(preset.name))
         }
     }
 
