@@ -83,14 +83,17 @@ class ArenaPresetCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "arenapr
             val feedback = preset.validate()
 
             if (feedback.passed) {
-                player.sendMessage {
-                    Component.text("已成功应用预设模板，内部名为 ", NamedTextColor.GREEN)
-                        .append(Component.text(preset.name, NamedTextColor.YELLOW))
-                        .append(Component.text("。", NamedTextColor.GREEN))
-                }
+                if (!ArenaPreset.isRegistered(preset.name)) {
+                    player.sendMessage {
+                        Component.text("已成功应用预设模板，内部名为 ", NamedTextColor.GREEN)
+                            .append(Component.text(preset.name, NamedTextColor.YELLOW))
+                            .append(Component.text("。", NamedTextColor.GREEN))
+                    }
 
-                ArenaPreset.register(preset)
-                ArenaPreset.Creator.unregister(player.uniqueId)
+                    ArenaPreset.register(preset)
+                    ArenaPreset.Creator.unregister(player.uniqueId)
+                } else player.sendMessage { Component.text("相同内部名的预设已经存在。", NamedTextColor.RED) }
+
                 return
             }
 
