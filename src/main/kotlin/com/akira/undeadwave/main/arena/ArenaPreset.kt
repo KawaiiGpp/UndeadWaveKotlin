@@ -3,20 +3,20 @@ package com.akira.undeadwave.main.arena
 import com.akira.core.api.EnhancedManager
 import com.akira.core.api.Manager
 import com.akira.core.api.util.general.EnhancedPredicate
-import com.akira.core.api.util.general.PredicateResult
 import com.akira.core.api.util.general.ValidateFeedback
 import com.akira.core.api.util.world.deserializeLocation
 import com.akira.core.api.util.world.deserializeLocationNullable
 import com.akira.core.api.util.world.serializeLocation
 import com.akira.core.api.util.world.worldNonNull
 import com.akira.undeadwave.UndeadWave
+import com.akira.undeadwave.util.SettingElement
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.configuration.ConfigurationSection
 import java.util.*
 
 class ArenaPreset(val name: String) {
-    private val map = mutableMapOf<String, Element<*>>()
+    private val map = mutableMapOf<String, SettingElement<*>>()
     val elements get() = map.toMap()
 
     val displayName = createElement(
@@ -76,12 +76,12 @@ class ArenaPreset(val name: String) {
         deserializer: (ConfigurationSection) -> T?,
         predicate: EnhancedPredicate<T>,
         rawValue: T? = null
-    ): Element<T> = Element(
+    ): SettingElement<T> = SettingElement(
         name, displayName, serializer,
         deserializer, predicate, rawValue
     ).also { registerElement(it) }
 
-    private fun registerElement(element: Element<*>) {
+    private fun registerElement(element: SettingElement<*>) {
         val name = element.name
 
         require(!elements.containsKey(name)) { "Preset element $name already existing." }
@@ -91,33 +91,6 @@ class ArenaPreset(val name: String) {
     private fun validateWorld(name: String, location: Location): String? =
         if (location.worldNonNull == world.value) null
         else "位置 $name 所在世界不一致。"
-
-    class Element<T : Any>(
-        val name: String,
-        val displayName: String,
-        private val serializer: (T, ConfigurationSection) -> Unit,
-        private val deserializer: (ConfigurationSection) -> T?,
-        private val predicate: EnhancedPredicate<T>,
-        private var rawValue: T? = null
-    ) {
-        var value
-            get() = requireNotNull(rawValue) { "Value for preset element $name not initialized." }
-            set(value) = value.let { rawValue = value }
-
-        val initialized get() = rawValue != null
-
-        fun validate(): PredicateResult<T> = predicate.test(rawValue)
-
-        fun serialize(section: ConfigurationSection) {
-            require(initialized) { "Preset element $name not initialized." }
-            serializer(value, section)
-        }
-
-        fun deserialize(section: ConfigurationSection) {
-            require(!initialized) { "Preset element $name already initialized." }
-            requireNotNull(deserializer(section)) { "Failed deserializing $name." }.let { value = it }
-        }
-    }
 
     object Creator : Manager<UUID, ArenaPreset>()
 

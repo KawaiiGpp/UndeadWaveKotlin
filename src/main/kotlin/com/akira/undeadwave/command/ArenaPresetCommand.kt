@@ -6,6 +6,7 @@ import com.akira.core.api.command.SenderLimit
 import com.akira.core.api.util.text.sendLine
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.main.arena.ArenaPreset
+import com.akira.undeadwave.util.SettingElement
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.CommandSender
@@ -128,7 +129,7 @@ class ArenaPresetCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "arenapr
     }
 
     inner class ConfigureValue<T : Any>(
-        private val supplier: (ArenaPreset) -> ArenaPreset.Element<T>,
+        private val supplier: (ArenaPreset) -> SettingElement<T>,
         private val parser: (String) -> T?
     ) : Operation(
         supplier(ArenaPreset.internal).let { arrayOf("set", it.name, "#${it.displayName}") },
@@ -157,8 +158,8 @@ class ArenaPresetCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "arenapr
     }
 
     inner class Configure<T : Any>(
-        private val supplier: (ArenaPreset) -> ArenaPreset.Element<T>,
-        private val applier: (ArenaPreset.Element<T>, Player) -> Unit,
+        private val supplier: (ArenaPreset) -> SettingElement<T>,
+        private val applier: (SettingElement<T>, Player) -> Unit,
     ) : Operation(
         arrayOf("set", supplier(ArenaPreset.internal).name),
         supplier(ArenaPreset.internal).displayName.let { "配置现有预设模板的$it。" }
