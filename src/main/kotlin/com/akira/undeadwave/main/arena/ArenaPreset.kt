@@ -9,16 +9,12 @@ import com.akira.core.api.util.world.deserializeLocationNullable
 import com.akira.core.api.util.world.serializeLocation
 import com.akira.core.api.util.world.worldNonNull
 import com.akira.undeadwave.UndeadWave
-import com.akira.undeadwave.util.SettingElement
+import com.akira.undeadwave.util.GameSettings
 import org.bukkit.Bukkit
 import org.bukkit.Location
-import org.bukkit.configuration.ConfigurationSection
 import java.util.*
 
-class ArenaPreset(val name: String) {
-    private val map = mutableMapOf<String, SettingElement<*>>()
-    val elements get() = map.toMap()
-
+class ArenaPreset(val name: String) : GameSettings() {
     val displayName = createElement(
         "display_name", "名称",
         { string, section -> section.set("display_name", string) },
@@ -55,37 +51,11 @@ class ArenaPreset(val name: String) {
         { section -> section.getStringList("enemy_spawnpoints").map { deserializeLocation(it) } },
         EnhancedPredicate("不可为空", "未指定") { it.isNotEmpty() })
 
-    fun validate(): ValidateFeedback {
-        val feedback = ValidateFeedback()
+    override fun validateExtra(feedback: ValidateFeedback) {
+        if (feedback.failed) return
 
-        elements.values.map { it to it.validate() }.filter { it.second.failure }
-            .forEach { feedback.add("参数 ${it.first.displayName} 异常：${it.second.failureMessage}。") }
-
-        if (feedback.passed) {
-            validateWorld(spawnpoint.displayName, spawnpoint.value)?.let(feedback::add)
-            enemySpawnpoints.value.forEach { validateWorld(enemySpawnpoints.displayName, it)?.let(feedback::add) }
-        }
-
-        return feedback
-    }
-
-    private fun <T : Any> createElement(
-        name: String,
-        displayName: String,
-        serializer: (T, ConfigurationSection) -> Unit,
-        deserializer: (ConfigurationSection) -> T?,
-        predicate: EnhancedPredicate<T>,
-        rawValue: T? = null
-    ): SettingElement<T> = SettingElement(
-        name, displayName, serializer,
-        deserializer, predicate, rawValue
-    ).also { registerElement(it) }
-
-    private fun registerElement(element: SettingElement<*>) {
-        val name = element.name
-
-        require(!elements.containsKey(name)) { "Preset element $name already existing." }
-        map[name] = element
+        validateWorld(spawnpoint.displayName, spawnpoint.value)?.let(feedback::add)
+        enemySpawnpoints.value.forEach { validateWorld(enemySpawnpoints.displayName, it)?.let(feedback::add) }
     }
 
     private fun validateWorld(name: String, location: Location): String? =
