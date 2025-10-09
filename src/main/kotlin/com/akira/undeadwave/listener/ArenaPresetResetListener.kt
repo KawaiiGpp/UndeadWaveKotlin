@@ -1,6 +1,6 @@
 package com.akira.undeadwave.listener
 
-import com.akira.undeadwave.main.preset.ArenaPreset
+import com.akira.undeadwave.main.arena.ArenaPreset
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent

@@ -5,7 +5,7 @@ import com.akira.core.api.command.EnhancedExecutor
 import com.akira.core.api.command.SenderLimit
 import com.akira.core.api.util.text.sendLine
 import com.akira.undeadwave.UndeadWave
-import com.akira.undeadwave.main.preset.ArenaPreset
+import com.akira.undeadwave.main.arena.ArenaPreset
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.CommandSender

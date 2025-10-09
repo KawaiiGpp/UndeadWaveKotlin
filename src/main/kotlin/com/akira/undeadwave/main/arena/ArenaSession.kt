@@ -1,4 +1,4 @@
-package com.akira.undeadwave.main.preset
+package com.akira.undeadwave.main.arena
 
 import org.bukkit.entity.Player
 

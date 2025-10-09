@@ -1,4 +1,4 @@
-package com.akira.undeadwave.main.preset
+package com.akira.undeadwave.main.arena
 
 import com.akira.undeadwave.util.restore
 import net.kyori.adventure.text.Component

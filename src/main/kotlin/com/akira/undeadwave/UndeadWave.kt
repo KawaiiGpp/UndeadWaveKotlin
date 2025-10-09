@@ -5,7 +5,7 @@ import com.akira.core.api.config.ConfigManager
 import com.akira.undeadwave.command.ArenaPresetCommand
 import com.akira.undeadwave.config.ArenaPresetConfig
 import com.akira.undeadwave.listener.ArenaPresetResetListener
-import com.akira.undeadwave.main.preset.ArenaPreset
+import com.akira.undeadwave.main.arena.ArenaPreset
 
 class UndeadWave : AkiraPlugin() {
     companion object {

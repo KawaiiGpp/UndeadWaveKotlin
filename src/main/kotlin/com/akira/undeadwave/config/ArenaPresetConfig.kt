@@ -2,7 +2,7 @@ package com.akira.undeadwave.config
 
 import com.akira.core.api.config.ConfigFile
 import com.akira.undeadwave.UndeadWave
-import com.akira.undeadwave.main.preset.ArenaPreset
+import com.akira.undeadwave.main.arena.ArenaPreset
 
 class ArenaPresetConfig(plugin: UndeadWave) : ConfigFile(plugin, "arena_preset") {
     fun get(name: String): ArenaPreset? {
