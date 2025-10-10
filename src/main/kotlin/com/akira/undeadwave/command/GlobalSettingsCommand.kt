@@ -7,6 +7,7 @@ import com.akira.core.api.util.text.sendLine
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.main.Global
 import com.akira.undeadwave.main.GlobalSettings
+import com.akira.undeadwave.main.arena.ArenaPreset
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.CommandSender
@@ -17,6 +18,7 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
         registerNode(Lobby())
         registerNode(Enable())
         registerNode(Disable())
+        registerNode(RemoveArena())
     }
 
     inner class Disable : CommandNode(
@@ -70,6 +72,27 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
         }
     }
 
+    inner class RemoveArena : Operation(
+        SenderLimit.NONE, arrayOf("remove_arena", "#名称"), "删除现有的预设。"
+    ) {
+        override fun run(sender: CommandSender, args: Array<String>) {
+            val name = args[0]
+
+            if (!ArenaPreset.isRegistered(name)) {
+                sender.sendMessage { Component.text("不存在名为 $name 的预设。") }
+                return
+            }
+
+            sender.sendMessage {
+                Component.text("已删除名为 ", NamedTextColor.GREEN)
+                    .append(Component.text(name, NamedTextColor.YELLOW))
+                    .append(Component.text(" 的预设。", NamedTextColor.GREEN))
+            }
+
+            ArenaPreset.unregister(name)
+        }
+    }
+
     abstract inner class Operation(
         senderLimit: SenderLimit,
         args: Array<String>,
@@ -77,7 +100,7 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
     ) : CommandNode(
         name, senderLimit, args, description
     ) {
-        override fun execute(sender: CommandSender, args: Array<String>): Boolean {
+        final override fun execute(sender: CommandSender, args: Array<String>): Boolean {
             if (Global.enabled) {
                 sender.sendMessage { Component.text("游戏处于禁用状态时才能这么做。", NamedTextColor.RED) }
             } else run(sender, args)
