@@ -4,6 +4,7 @@ import com.akira.undeadwave.UndeadWave
 
 object Global {
     var enabled = false
+    val disabled get() = !enabled
 
     fun performSelfCheck() {
         val feedback = GlobalSettings.validate()
