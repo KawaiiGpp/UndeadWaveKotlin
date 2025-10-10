@@ -3,6 +3,7 @@ package com.akira.undeadwave
 import com.akira.core.api.AkiraPlugin
 import com.akira.core.api.config.ConfigManager
 import com.akira.undeadwave.command.ArenaPresetCommand
+import com.akira.undeadwave.command.GlobalSettingsCommand
 import com.akira.undeadwave.config.ArenaPresetConfig
 import com.akira.undeadwave.config.GlobalSettingsConfig
 import com.akira.undeadwave.listener.ArenaPresetResetListener
@@ -37,6 +38,8 @@ class UndeadWave : AkiraPlugin() {
         Global.performSelfCheck()
 
         setupCommand(ArenaPresetCommand(this))
+        setupCommand(GlobalSettingsCommand(this))
+
         setupListener(ArenaPresetResetListener())
     }
 
