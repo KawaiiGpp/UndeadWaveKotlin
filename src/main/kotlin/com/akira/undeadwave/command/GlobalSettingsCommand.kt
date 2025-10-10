@@ -18,7 +18,9 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
         registerNode(Lobby())
         registerNode(Enable())
         registerNode(Disable())
+
         registerNode(RemoveArena())
+        registerNode(ListArena())
     }
 
     inner class Disable : CommandNode(
@@ -73,13 +75,13 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
     }
 
     inner class RemoveArena : Operation(
-        SenderLimit.NONE, arrayOf("remove_arena", "#名称"), "删除现有的预设。"
+        SenderLimit.NONE, arrayOf("arena", "remove", "#名称"), "删除现有的预设。"
     ) {
         override fun run(sender: CommandSender, args: Array<String>) {
             val name = args[0]
 
             if (!ArenaPreset.isRegistered(name)) {
-                sender.sendMessage { Component.text("不存在名为 $name 的预设。") }
+                sender.sendMessage { Component.text("不存在名为 $name 的预设。", NamedTextColor.RED) }
                 return
             }
 
@@ -90,6 +92,37 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
             }
 
             ArenaPreset.unregister(name)
+        }
+    }
+
+    inner class ListArena : CommandNode(
+        name, SenderLimit.NONE, arrayOf("arena", "list"), "展示所有已加载的预设。"
+    ) {
+        override fun execute(sender: CommandSender, args: Array<String>): Boolean {
+            val container = ArenaPreset.container
+
+            if (container.isNotEmpty()) {
+                sender.sendLine(50, NamedTextColor.DARK_GRAY)
+
+                sender.sendMessage {
+                    Component.text("目前共加载了 ", NamedTextColor.WHITE)
+                        .append(Component.text(container.size.toString(), NamedTextColor.YELLOW))
+                        .append(Component.text(" 个预设：", NamedTextColor.WHITE))
+                }
+
+                container.values.forEach {
+                    sender.sendMessage {
+                        Component.text("✔ ", NamedTextColor.DARK_GREEN)
+                            .append(Component.text("${it.displayName.value} (内部名：${it.name})", NamedTextColor.GRAY))
+                    }
+                }
+
+                sender.sendLine(50, NamedTextColor.DARK_GRAY)
+            } else {
+                sender.sendMessage { Component.text("目前没有加载任何预设。", NamedTextColor.RED) }
+            }
+
+            return true
         }
     }
 
