@@ -1,6 +1,7 @@
 package com.akira.undeadwave.config
 
 import com.akira.core.api.config.ConfigFile
+import com.akira.core.api.config.clear
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.main.arena.ArenaPreset
 
@@ -28,5 +29,8 @@ class ArenaPresetConfig(plugin: UndeadWave) : ConfigFile(plugin, "arena_preset")
         preset.elements.forEach { it.value.serialize(section) }
     }
 
-    fun saveAll(presets: Collection<ArenaPreset>) = presets.forEach { this.save(it) }
+    fun saveAll(presets: Collection<ArenaPreset>) {
+        config.clear()
+        presets.forEach { this.save(it) }
+    }
 }
