@@ -17,14 +17,18 @@ object GlobalSettings : GameSettings() {
     fun loadFromConfig() {
         val plugin = UndeadWave.instance
 
-        runCatching { plugin.configGlobalSettings.loadAll(elements.values) }
-            .onFailure { plugin.logError("加载全局配置时发生异常。"); it.printStackTrace() }
+        elements.forEach { entry ->
+            runCatching { plugin.configGlobalSettings.load(entry.value) }
+                .onFailure { plugin.logError("无法解析全局配置项：${entry.value.name}") }
+        }
     }
 
     fun saveToConfig() {
         val plugin = UndeadWave.instance
 
-        runCatching { plugin.configGlobalSettings.saveAll(elements.values) }
-            .onFailure { plugin.logError("保存全局配置时发生异常。"); it.printStackTrace() }
+        elements.forEach { entry ->
+            runCatching { plugin.configGlobalSettings.save(entry.value) }
+                .onFailure { plugin.logError("无法保存全局配置项：${entry.value.name}") }
+        }
     }
 }

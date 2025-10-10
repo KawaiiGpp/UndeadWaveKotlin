@@ -28,7 +28,7 @@ class UndeadWave : AkiraPlugin() {
         super.onEnable()
 
         configManager.register("ArenaPreset", ArenaPresetConfig(this))
-        configManager.register("GlobalSettings", ArenaPresetConfig(this))
+        configManager.register("GlobalSettings", GlobalSettingsConfig(this))
         configManager.initializeAll()
 
         GlobalSettings.loadFromConfig()

@@ -11,7 +11,7 @@ object Global {
 
         if (feedback.failed) {
             plugin.logWarn("自检未通过，玩家暂无法加入游戏。")
-            feedback.content.forEach(plugin::logWarn)
+            feedback.content.forEach { plugin.logWarn("- $it") }
         } else {
             plugin.logInfo("自检已通过，玩家可以正常加入游戏。")
             enabled = true
