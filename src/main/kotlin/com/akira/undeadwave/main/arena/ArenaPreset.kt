@@ -74,8 +74,8 @@ class ArenaPreset(val name: String) : GameSettings() {
 
             runCatching { plugin.configArenaPreset.loadAll().forEach(this::register) }
                 .onSuccess {
-                    if (container.isNotEmpty())
-                        plugin.logInfo("已从配置文件加载 ${container.size} 个地图预设。")
+                    if (container.isNotEmpty()) plugin.logInfo("已从配置文件加载 ${container.size} 个地图预设。")
+                    else plugin.logWarn("目前配置文件中没有任何地图预设。")
                 }
                 .onFailure {
                     plugin.logError("从配置文件加载地图预设时发生异常。")

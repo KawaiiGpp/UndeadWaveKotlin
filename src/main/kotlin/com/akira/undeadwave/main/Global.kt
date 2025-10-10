@@ -11,10 +11,10 @@ object Global {
         val plugin = UndeadWave.instance
 
         if (feedback.failed) {
-            plugin.logWarn("自检未通过，玩家暂无法加入游戏。")
+            plugin.logWarn("全局配置自检未通过，参考信息：")
             feedback.content.forEach { plugin.logWarn("- $it") }
         } else {
-            plugin.logInfo("自检已通过，玩家可以正常加入游戏。")
+            plugin.logInfo("全局配置自检已通过。")
             enabled = true
         }
     }
