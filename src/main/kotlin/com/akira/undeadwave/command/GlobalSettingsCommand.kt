@@ -7,6 +7,7 @@ import com.akira.core.api.util.text.sendLine
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.main.Global
 import com.akira.undeadwave.main.GlobalSettings
+import com.akira.undeadwave.main.arena.Arena
 import com.akira.undeadwave.main.arena.ArenaPreset
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -27,13 +28,18 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
         name, SenderLimit.NONE, arrayOf("disable"), "将游戏设为禁用状态。"
     ) {
         override fun execute(sender: CommandSender, args: Array<String>): Boolean {
-            if (Global.enabled) {
-                sender.sendMessage { Component.text("已将游戏设为禁用状态。", NamedTextColor.GREEN) }
-                Global.enabled = false
-            } else {
+            if (Global.disabled) {
                 sender.sendMessage { Component.text("游戏处于启用状态时才能这么做。", NamedTextColor.RED) }
+                return true
             }
 
+            if (Arena.PlayerMap.container.isNotEmpty()) {
+                sender.sendMessage { Component.text("无法禁用游戏，因为仍有实例正在运行。", NamedTextColor.RED) }
+                return true
+            }
+
+            Global.enabled = false
+            sender.sendMessage { Component.text("已将游戏设为禁用状态。", NamedTextColor.GREEN) }
             return true
         }
     }
