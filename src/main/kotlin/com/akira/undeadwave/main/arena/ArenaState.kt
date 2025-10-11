@@ -7,5 +7,6 @@ enum class ArenaState(
     val color: NamedTextColor
 ) {
     FREE("空闲", NamedTextColor.GREEN),
-    WORKING("运作中", NamedTextColor.RED);
+    WORKING("运作中", NamedTextColor.GOLD),
+    SHUTDOWN("关闭", NamedTextColor.RED)
 }
