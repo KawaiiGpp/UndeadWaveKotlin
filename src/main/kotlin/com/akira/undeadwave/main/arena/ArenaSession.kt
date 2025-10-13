@@ -1,6 +1,8 @@
 package com.akira.undeadwave.main.arena
 
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import java.util.*
 
 class ArenaSession(
     val player: Player,
@@ -14,6 +16,9 @@ class ArenaSession(
         private set
     var rounds = 0
         private set
+
+    private val markedEnemies = mutableSetOf<UUID>()
+    val enemies get() = markedEnemies.toSet()
 
     fun increaseKills() = let { kills++ }
 
@@ -29,4 +34,18 @@ class ArenaSession(
     }
 
     fun gainScore(amount: Double) = amount.let { score += (it * difficulty.scoreMultiplier) }
+
+    fun isMarked(entity: LivingEntity) = markedEnemies.contains(entity.uniqueId)
+
+    fun hasEnemiesLeft() = markedEnemies.isNotEmpty()
+
+    fun markEnemy(entity: LivingEntity) {
+        require(!this.isMarked(entity)) { "Enemy already marked." }
+        markedEnemies.add(entity.uniqueId)
+    }
+
+    fun unmarkEnemy(entity: LivingEntity) {
+        require(this.isMarked(entity)) { "Enemy not marked." }
+        markedEnemies.remove(entity.uniqueId)
+    }
 }
