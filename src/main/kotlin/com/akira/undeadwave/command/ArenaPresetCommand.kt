@@ -5,6 +5,7 @@ import com.akira.core.api.command.EnhancedExecutor
 import com.akira.core.api.command.SenderLimit
 import com.akira.core.api.util.text.sendLine
 import com.akira.undeadwave.UndeadWave
+import com.akira.undeadwave.main.Global
 import com.akira.undeadwave.main.arena.ArenaPreset
 import com.akira.undeadwave.util.SettingElement
 import net.kyori.adventure.text.Component
@@ -98,6 +99,11 @@ class ArenaPresetCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "arenapr
         "以现有预设模板创建新的预设。"
     ) {
         override fun run(player: Player, preset: ArenaPreset, args: Array<String>) {
+            if (Global.enabled) {
+                player.sendMessage { Component.text("游戏启用期间无法创建预设。", NamedTextColor.RED) }
+                return
+            }
+
             val feedback = preset.validate()
 
             if (feedback.passed) {
