@@ -7,7 +7,7 @@ import com.akira.undeadwave.command.GlobalSettingsCommand
 import com.akira.undeadwave.command.UndeadWaveCommand
 import com.akira.undeadwave.config.ArenaPresetConfig
 import com.akira.undeadwave.config.GlobalSettingsConfig
-import com.akira.undeadwave.listener.ArenaPresetResetListener
+import com.akira.undeadwave.listener.ArenaListener
 import com.akira.undeadwave.listener.GeneralListener
 import com.akira.undeadwave.main.Global
 import com.akira.undeadwave.main.GlobalSettings
@@ -44,7 +44,7 @@ class UndeadWave : AkiraPlugin() {
         setupCommand(UndeadWaveCommand(this))
 
         setupListener(GeneralListener())
-        setupListener(ArenaPresetResetListener())
+        setupListener(ArenaListener())
     }
 
     override fun onDisable() {
