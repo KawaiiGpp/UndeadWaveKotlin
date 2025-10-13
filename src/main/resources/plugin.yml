@@ -8,8 +8,13 @@ depend: [AkiraCore]
 commands:
   arenapreset:
     permission: undeadwave.admin
+    aliases: [ap]
   globalsettings:
     permission: undeadwave.admin
+    aliases: [gs]
+  undeadwave:
+    permission: undeadwave.user
+    aliases: [uw]
 
 permissions:
   undeadwave.user:
