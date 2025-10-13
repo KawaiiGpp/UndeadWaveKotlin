@@ -14,7 +14,7 @@ class ArenaSession(
         private set
     var score = 0.0
         private set
-    var rounds = 0
+    var round = 0
         private set
 
     private val markedEnemies = mutableSetOf<UUID>()
@@ -22,7 +22,7 @@ class ArenaSession(
 
     fun increaseKills() = let { kills++ }
 
-    fun increaseRounds() = let { rounds++ }
+    fun increaseRound() = let { round++ }
 
     fun gainCoins(amount: Int) = amount.let { coins += it }
 
