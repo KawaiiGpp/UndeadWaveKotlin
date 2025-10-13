@@ -22,6 +22,9 @@ class ArenaListener : Listener {
             Arena.PresetMap.container.values.firstOrNull { it.name == name }
         ) { "Unknown arena name from entity's metadata: $name. (EntityType: ${entity.type})" }
             .run { handleEnemyDeath(entity) }
+
+        event.droppedExp = 0
+        event.drops.clear()
     }
 
     @EventHandler

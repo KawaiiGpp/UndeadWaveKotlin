@@ -9,6 +9,8 @@ import com.akira.undeadwave.main.GlobalSettings
 import com.akira.undeadwave.util.restore
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.Bukkit
+import org.bukkit.entity.Ageable
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Zombie
@@ -39,6 +41,13 @@ class Arena(val preset: ArenaPreset, val session: ArenaSession) {
         session.player.sendMessage { Component.text("游戏结束！胜利状态=$victory。", NamedTextColor.GREEN) }
         session.player.teleport(GlobalSettings.lobby.value)
 
+        session.enemies.forEach {
+            val entity = Bukkit.getEntity(it)
+
+            if (entity != null) entity.remove()
+            else UndeadWave.instance.logError("实体未找到：$it")
+        }
+
         PresetMap.unregister(preset)
         PlayerMap.unregister(session.player)
         state = ArenaState.SHUTDOWN
@@ -46,14 +55,18 @@ class Arena(val preset: ArenaPreset, val session: ArenaSession) {
 
     fun spawnEnemies() {
         repeat(session.round * preset.enemyMultiplier.value) {
+            val clazz: Class<out LivingEntity> = Zombie::class.java
             val location = preset.enemySpawnpoints.value.random()
-            val entity = location.worldNonNull.spawn(location, Zombie::class.java)
+            val entity = location.worldNonNull.spawn(location, clazz)
 
             entity.removeWhenFarAway = false
             entity.removeWhenFarAway = false
             entity.maximumNoDamageTicks = 0
             entity.isPersistent = true
             entity.canPickupItems = false
+
+            if (entity is Ageable) entity.setAdult()
+            entity.vehicle?.remove()
 
             session.markEnemy(entity)
             MetadataEditor(UndeadWave.instance, entity).set("arena_name", preset.name)
