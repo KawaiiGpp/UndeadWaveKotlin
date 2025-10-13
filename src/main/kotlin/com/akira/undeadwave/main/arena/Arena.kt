@@ -25,11 +25,11 @@ class Arena(val preset: ArenaPreset, val session: ArenaSession) {
         session.player.teleport(preset.spawnpoint.value)
     }
 
-    fun end(victory: Boolean) {
+    fun shutdown(victory: Boolean) {
         require(state == ArenaState.WORKING) { "Arena is not in working state." }
 
         session.player.restore()
-        session.player.sendMessage { Component.text("游戏结束了！", NamedTextColor.GREEN) }
+        session.player.sendMessage { Component.text("游戏结束！胜利状态=$victory。", NamedTextColor.GREEN) }
         session.player.teleport(GlobalSettings.lobby.value)
 
         PresetMap.unregister(preset)
