@@ -12,8 +12,12 @@ class ArenaSession(
         private set
     var score = 0.0
         private set
+    var rounds = 0
+        private set
 
-    fun increaseKills() = let { kills += 1 }
+    fun increaseKills() = let { kills++ }
+
+    fun increaseRounds() = let { rounds++ }
 
     fun gainCoins(amount: Int) = amount.let { coins += it }
 
