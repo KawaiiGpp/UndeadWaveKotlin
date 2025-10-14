@@ -28,5 +28,7 @@ class ArenaListener : Listener {
     }
 
     @EventHandler
-    fun onPlayerDeath(event: PlayerDeathEvent) = Arena.PlayerMap.get(event.player)?.shutdown(false)
+    fun onPlayerDeath(event: PlayerDeathEvent) {
+        Arena.PlayerMap.get(event.player)?.shutdown(false)
+    }
 }
