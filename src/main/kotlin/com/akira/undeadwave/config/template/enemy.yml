@@ -1,0 +1,179 @@
+common_zombie:
+  type: ZOMBIE
+  display_name: "普通僵尸"
+  health: 20
+  damage: 6
+  speed_bonus: 0
+  available_round:
+    from: 1
+    to: 5
+  weight: 100
+  reward: 35
+
+gold_zombie:
+  type: ZOMBIE
+  display_name: "黄金僵尸"
+  health: 20
+  damage: 10
+  speed_bonus: 10
+  available_round:
+    from: 5
+    to: 8
+  weight: 100
+  reward: 45
+
+iron_zombie:
+  type: ZOMBIE
+  display_name: "铁桶僵尸"
+  health: 20
+  damage: 14
+  speed_bonus: 20
+  available_round:
+    from: 8
+    to: 12
+  weight: 100
+  reward: 55
+
+diamond_zombie:
+  type: ZOMBIE
+  display_name: "钻石僵尸"
+  health: 20
+  damage: 18
+  speed_bonus: 30
+  available_round:
+    from: 12
+    to: 999
+  weight: 100
+  reward: 65
+
+speedster_zombie:
+  type: ZOMBIE
+  display_name: "飞翔僵尸"
+  health: 40
+  damage: 8
+  speed_bonus: 60
+  available_round:
+    from: 6
+    to: 8
+  weight: 15
+  reward: 90
+
+lightning_zombie:
+  type: ZOMBIE
+  display_name: "闪电僵尸"
+  health: 40
+  damage: 12
+  speed_bonus: 100
+  available_round:
+    from: 11
+    to: 999
+  weight: 15
+  reward: 100
+
+thunderblot_zombie:
+  type: ZOMBIE
+  display_name: "雷霆刺客"
+  health: 50
+  damage: 18
+  speed_bonus: 20
+  available_round:
+    from: 7
+    to: 10
+  weight: 30
+  reward: 110
+
+shadow_assassin_zombie:
+  type: ZOMBIE
+  display_name: "暗影刺客"
+  health: 70
+  damage: 24
+  speed_bonus: 40
+  available_round:
+    from: 13
+    to: 999
+  weight: 20
+  reward: 120
+
+rock_zombie:
+  type: ZOMBIE
+  display_name: "岩石僵尸"
+  health: 30
+  damage: 5
+  speed_bonus: 0
+  available_round:
+    from: 3
+    to: 6
+  weight: 20
+  reward: 50
+
+tank_zombie:
+  type: ZOMBIE
+  display_name: "坦克僵尸"
+  health: 40
+  damage: 10
+  speed_bonus: 0
+  available_round:
+    from: 10
+    to: 999
+  weight: 20
+  reward: 70
+
+common_skeleton:
+  type: ZOMBIE
+  display_name: "普通骷髅"
+  health: 20
+  damage: 4
+  speed_bonus: 0
+  available_round:
+    from: 4
+    to: 7
+  weight: 30
+  reward: 50
+
+gold_skeleton:
+  type: ZOMBIE
+  display_name: "黄金骷髅"
+  health: 20
+  damage: 8
+  speed_bonus: 15
+  available_round:
+    from: 7
+    to: 10
+  weight: 30
+  reward: 65
+
+iron_skeleton:
+  type: ZOMBIE
+  display_name: "铁桶骷髅"
+  health: 20
+  damage: 12
+  speed_bonus: 30
+  available_round:
+    from: 10
+    to: 999
+  weight: 30
+  reward: 80
+
+impact_skeleton:
+  type: ZOMBIE
+  display_name: "冲击者"
+  health: 40
+  damage: 8
+  speed_bonus: 20
+  available_round:
+    from: 7
+    to: 999
+  weight: 5
+  reward: 100
+
+sniper_skeleton:
+  type: ZOMBIE
+  display_name: "狙击手"
+  health: 40
+  damage: 18
+  speed_bonus: 20
+  available_round:
+    from: 11
+    to: 999
+  weight: 5
+  reward: 120
