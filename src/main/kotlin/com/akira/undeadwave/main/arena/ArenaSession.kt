@@ -20,9 +20,13 @@ class ArenaSession(
     private val markedEnemies = mutableSetOf<UUID>()
     val enemies get() = markedEnemies.toSet()
 
-    fun increaseKills() = let { kills++ }
+    fun increaseKills() {
+        kills++
+    }
 
-    fun increaseRound() = let { round++ }
+    fun increaseRound() {
+        round++
+    }
 
     fun gainCoins(amount: Int) = amount.let { coins += it }
 
