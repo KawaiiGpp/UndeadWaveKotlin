@@ -48,7 +48,7 @@ class GlobalSettingsCommand(plugin: UndeadWave) : EnhancedExecutor(plugin, "glob
         SenderLimit.NONE, arrayOf("enable"), "尝试自检并启用游戏。"
     ) {
         override fun run(sender: CommandSender, args: Array<String>) {
-            val feedback = GlobalSettings.validate()
+            val feedback = Global.validate()
 
             if (feedback.failed) {
                 sender.sendLine(50, NamedTextColor.DARK_GRAY)

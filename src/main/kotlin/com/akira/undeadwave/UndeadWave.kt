@@ -43,7 +43,7 @@ class UndeadWave : AkiraPlugin() {
         ArenaPreset.loadFromConfig()
         Enemy.loadFromConfig()
 
-        Global.performSelfCheck()
+        Global.selfCheck()
 
         setupCommand(ArenaPresetCommand(this))
         setupCommand(GlobalSettingsCommand(this))
