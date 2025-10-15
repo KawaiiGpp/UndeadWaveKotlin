@@ -1,0 +1,79 @@
+package com.akira.undeadwave.main.enemy
+
+import com.akira.core.api.EnhancedManager
+import com.akira.core.api.config.ConfigSerializable
+import com.akira.undeadwave.UndeadWave
+import com.akira.undeadwave.util.PropertyDelegate
+import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.entity.EntityType
+
+class Enemy(val name: String) : ConfigSerializable {
+    var displayName by PropertyDelegate<String>()
+    var entityType by PropertyDelegate<EntityType>()
+    var health by PropertyDelegate<Double>()
+    var damage by PropertyDelegate<Double>()
+    var speedBonus by PropertyDelegate<Int>()
+    var availableRoundFrom by PropertyDelegate<Int>()
+    var availableRoundTo by PropertyDelegate<Int>()
+    var weight by PropertyDelegate<Int>()
+    var reward by PropertyDelegate<Int>()
+
+    override fun serialize(section: ConfigurationSection) {
+        section["type"] = entityType.name
+        section["display_name"] = displayName
+        section["health"] = health
+        section["damage"] = damage
+        section["speed_bonus"] = speedBonus
+        section["available_round.from"] = availableRoundFrom
+        section["available_round.to"] = availableRoundTo
+        section["weight"] = weight
+        section["reward"] = reward
+    }
+
+    override fun deserialize(section: ConfigurationSection) {
+        fun <T : Any> nonNull(key: String, apply: ConfigurationSection.(String) -> T?): T =
+            requireNotNull(section.apply(key)) { "Failed parsing the key $key" }
+
+        entityType = EntityType.valueOf(nonNull("type", ConfigurationSection::getString))
+        displayName = nonNull("display_name", ConfigurationSection::getString)
+        health = nonNull("health", ConfigurationSection::getDouble)
+        damage = nonNull("damage", ConfigurationSection::getDouble)
+        speedBonus = nonNull("speed_bonus", ConfigurationSection::getInt)
+        availableRoundFrom = nonNull("available_round.from", ConfigurationSection::getInt)
+        availableRoundTo = nonNull("available_round.to", ConfigurationSection::getInt)
+        weight = nonNull("weight", ConfigurationSection::getInt)
+        reward = nonNull("reward", ConfigurationSection::getInt)
+    }
+
+    companion object : EnhancedManager<Enemy>() {
+        override fun transform(element: Enemy): String = element.name
+
+        fun loadFromConfig() {
+            val plugin = UndeadWave.instance
+
+            runCatching { plugin.configEnemy.loadAll().forEach(this::register) }
+                .onSuccess {
+                    if (container.isEmpty()) plugin.logInfo("未从配置中读取到任何怪物种类。")
+                    else plugin.logInfo("已从配置中加载 ${container.size} 种怪物种类。")
+                }
+                .onFailure {
+                    plugin.logError("加载配置中现有怪物种类时发生异常。")
+                    it.printStackTrace()
+                }
+        }
+
+        fun saveToConfig() {
+            val plugin = UndeadWave.instance
+
+            runCatching { plugin.configEnemy.saveAll(container.values) }
+                .onSuccess {
+                    if (container.isNotEmpty())
+                        plugin.logInfo("已保存 ${container.size} 种怪物至配置文件。")
+                }
+                .onFailure {
+                    plugin.logError("保存现有怪物种类到配置文件时发生异常。")
+                    it.printStackTrace()
+                }
+        }
+    }
+}
