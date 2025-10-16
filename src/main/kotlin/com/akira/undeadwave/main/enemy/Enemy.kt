@@ -63,9 +63,6 @@ class Enemy(val name: String) : ConfigSerializable {
             AttributeEditor(entity.getNonNullAttribute(type), UndeadWave.instance.name)
                 .add("ingame.enemy.modifiers.$name", value, operation)
 
-        fun modify(name: String, type: Attribute, value: Double) =
-            value.let { AttributeEditor(entity.getNonNullAttribute(type), UndeadWave.instance.name).base = it }
-
         entity.isPersistent = true
         entity.removeWhenFarAway = false
         entity.maximumNoDamageTicks = 0
@@ -78,8 +75,6 @@ class Enemy(val name: String) : ConfigSerializable {
         entity.health = entity.getFinalMaxHealth()
 
         modify("speed_bonus", Attribute.GENERIC_MOVEMENT_SPEED, speedBonus / 100.0, Operation.ADD_SCALAR)
-        modify("damage", Attribute.GENERIC_ATTACK_DAMAGE, damage)
-
         return entity
     }
 
