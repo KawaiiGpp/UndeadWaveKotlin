@@ -2,10 +2,20 @@ package com.akira.undeadwave.main.enemy
 
 import com.akira.core.api.EnhancedManager
 import com.akira.core.api.config.ConfigSerializable
+import com.akira.core.api.util.entity.AttributeEditor
+import com.akira.core.api.util.entity.getFinalMaxHealth
+import com.akira.core.api.util.entity.getNonNullAttribute
+import com.akira.core.api.util.entity.setBaseMaxHealth
+import com.akira.core.api.util.world.worldNonNull
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.util.PropertyDelegate
+import org.bukkit.Location
+import org.bukkit.attribute.Attribute
+import org.bukkit.attribute.AttributeModifier.Operation
 import org.bukkit.configuration.ConfigurationSection
+import org.bukkit.entity.Ageable
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.LivingEntity
 
 class Enemy(val name: String) : ConfigSerializable {
     var displayName by PropertyDelegate<String>()
@@ -43,6 +53,34 @@ class Enemy(val name: String) : ConfigSerializable {
         availableRoundTo = nonNull("available_round.to", ConfigurationSection::getInt)
         weight = nonNull("weight", ConfigurationSection::getInt)
         reward = nonNull("reward", ConfigurationSection::getInt)
+    }
+
+    fun spawn(location: Location): LivingEntity {
+        val entity = location.worldNonNull.spawnEntity(location, entityType)
+        require(entity is LivingEntity) { "Enemy must be a Living Entity." }
+
+        fun modify(name: String, type: Attribute, value: Double, operation: Operation) =
+            AttributeEditor(entity.getNonNullAttribute(type), UndeadWave.instance.name)
+                .add("ingame.enemy.modifiers.$name", value, operation)
+
+        fun modify(name: String, type: Attribute, value: Double) =
+            value.let { AttributeEditor(entity.getNonNullAttribute(type), UndeadWave.instance.name).base = it }
+
+        entity.isPersistent = true
+        entity.removeWhenFarAway = false
+        entity.maximumNoDamageTicks = 0
+        entity.canPickupItems = false
+
+        (entity as? Ageable)?.setAdult()
+        entity.vehicle?.remove()
+
+        entity.setBaseMaxHealth(health)
+        entity.health = entity.getFinalMaxHealth()
+
+        modify("speed_bonus", Attribute.GENERIC_MOVEMENT_SPEED, speedBonus / 100.0, Operation.ADD_SCALAR)
+        modify("damage", Attribute.GENERIC_ATTACK_DAMAGE, damage)
+
+        return entity
     }
 
     companion object : EnhancedManager<Enemy>() {
