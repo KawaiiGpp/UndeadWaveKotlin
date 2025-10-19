@@ -2,6 +2,7 @@ package com.akira.undeadwave.main.enemy
 
 import com.akira.core.api.EnhancedManager
 import com.akira.core.api.config.ConfigSerializable
+import com.akira.core.api.config.getNonNullSection
 import com.akira.core.api.util.entity.AttributeEditor
 import com.akira.core.api.util.entity.getFinalMaxHealth
 import com.akira.core.api.util.entity.getNonNullAttribute
@@ -18,15 +19,16 @@ import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 
 class Enemy(val name: String) : ConfigSerializable {
-    var displayName by PropertyDelegate<String>()
-    var entityType by PropertyDelegate<EntityType>()
-    var health by PropertyDelegate<Double>()
-    var damage by PropertyDelegate<Double>()
-    var speedBonus by PropertyDelegate<Int>()
-    var availableRoundFrom by PropertyDelegate<Int>()
-    var availableRoundTo by PropertyDelegate<Int>()
-    var weight by PropertyDelegate<Int>()
-    var reward by PropertyDelegate<Int>()
+    var displayName by PropertyDelegate<String>(); private set
+    var entityType by PropertyDelegate<EntityType>(); private set
+    var health by PropertyDelegate<Double>(); private set
+    var damage by PropertyDelegate<Double>(); private set
+    var speedBonus by PropertyDelegate<Int>(); private set
+    var availableRoundFrom by PropertyDelegate<Int>(); private set
+    var availableRoundTo by PropertyDelegate<Int>(); private set
+    var weight by PropertyDelegate<Int>(); private set
+    var reward by PropertyDelegate<Int>(); private set
+    var equipment by PropertyDelegate<EnemyEquipment>(); private set
 
     override fun serialize(section: ConfigurationSection) {
         section["type"] = entityType.name
@@ -38,6 +40,8 @@ class Enemy(val name: String) : ConfigSerializable {
         section["available_round.to"] = availableRoundTo
         section["weight"] = weight
         section["reward"] = reward
+
+        equipment.serialize(section.createSection("equipment"))
     }
 
     override fun deserialize(section: ConfigurationSection) {
@@ -53,6 +57,8 @@ class Enemy(val name: String) : ConfigSerializable {
         availableRoundTo = nonNull("available_round.to", ConfigurationSection::getInt)
         weight = nonNull("weight", ConfigurationSection::getInt)
         reward = nonNull("reward", ConfigurationSection::getInt)
+
+        equipment = EnemyEquipment().apply { deserialize(section.getNonNullSection("equipment")) }
     }
 
     fun spawn(location: Location): LivingEntity {
