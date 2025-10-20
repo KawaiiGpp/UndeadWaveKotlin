@@ -2,18 +2,17 @@ package com.akira.undeadwave.main.arena
 
 import com.akira.core.api.Manager
 import com.akira.core.api.util.entity.MetadataEditor
-import com.akira.core.api.util.world.worldNonNull
+import com.akira.core.api.util.general.randomWeighted
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.main.Global
 import com.akira.undeadwave.main.GlobalSettings
+import com.akira.undeadwave.main.enemy.Enemy
 import com.akira.undeadwave.util.restore
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
-import org.bukkit.entity.Ageable
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import org.bukkit.entity.Zombie
 
 class Arena(val preset: ArenaPreset, val session: ArenaSession) {
     val name get() = preset.name
@@ -54,22 +53,18 @@ class Arena(val preset: ArenaPreset, val session: ArenaSession) {
     }
 
     fun spawnEnemies() {
-        repeat(session.round * preset.enemyMultiplier.value) {
-            val clazz: Class<out LivingEntity> = Zombie::class.java
-            val location = preset.enemySpawnpoints.value.random()
-            val entity = location.worldNonNull.spawn(location, clazz)
+        val round = session.round
+        val enemies = Enemy.container.values.filter { it.canSpawn(round) }
+        require(enemies.isNotEmpty()) { "No enemies can be spawned in round $round." }
 
-            entity.removeWhenFarAway = false
-            entity.removeWhenFarAway = false
-            entity.maximumNoDamageTicks = 0
-            entity.isPersistent = true
-            entity.canPickupItems = false
-
-            if (entity is Ageable) entity.setAdult()
-            entity.vehicle?.remove()
+        repeat(round * preset.enemyMultiplier.value) {
+            val enemy = enemies.randomWeighted(Enemy::weight)
+            val entity = enemy.spawn(preset.enemySpawnpoints.value.random())
+            val metadata = MetadataEditor(UndeadWave.instance, entity)
 
             session.markEnemy(entity)
-            MetadataEditor(UndeadWave.instance, entity).set("arena_name", preset.name)
+            metadata.set("enemy.name", enemy.name)
+            metadata.set("enemy.arena", preset.name)
         }
     }
 

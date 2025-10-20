@@ -79,10 +79,13 @@ class Enemy(val name: String) : ConfigSerializable {
 
         entity.setBaseMaxHealth(health)
         entity.health = entity.getFinalMaxHealth()
+        equipment.apply(entity)
 
         modify("speed_bonus", Attribute.GENERIC_MOVEMENT_SPEED, speedBonus / 100.0, Operation.ADD_SCALAR)
         return entity
     }
+
+    fun canSpawn(round: Int): Boolean = round >= availableRoundFrom && round <= availableRoundTo
 
     companion object : EnhancedManager<Enemy>() {
         override fun transform(element: Enemy): String = element.name
