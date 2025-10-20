@@ -9,6 +9,12 @@ common_zombie:
     to: 5
   weight: 100
   reward: 35
+  equipment:
+    weapon: EMPTY
+    helmet: EMPTY
+    chestplate: EMPTY
+    leggings: EMPTY
+    boots: EMPTY
 
 gold_zombie:
   type: ZOMBIE
@@ -21,6 +27,12 @@ gold_zombie:
     to: 8
   weight: 100
   reward: 45
+  equipment:
+    weapon: GOLDEN_SWORD
+    helmet: GOLDEN_HELMET
+    chestplate: GOLDEN_CHESTPLATE
+    leggings: GOLDEN_LEGGINGS
+    boots: GOLDEN_BOOTS
 
 iron_zombie:
   type: ZOMBIE
@@ -33,6 +45,12 @@ iron_zombie:
     to: 12
   weight: 100
   reward: 55
+  equipment:
+    weapon: IRON_SWORD
+    helmet: IRON_HELMET
+    chestplate: IRON_CHESTPLATE
+    leggings: IRON_LEGGINGS
+    boots: IRON_BOOTS
 
 diamond_zombie:
   type: ZOMBIE
@@ -45,6 +63,12 @@ diamond_zombie:
     to: 999
   weight: 100
   reward: 65
+  equipment:
+    weapon: DIAMOND_SWORD
+    helmet: DIAMOND_HELMET
+    chestplate: DIAMOND_CHESTPLATE
+    leggings: DIAMOND_LEGGINGS
+    boots: DIAMOND_BOOTS
 
 speedster_zombie:
   type: ZOMBIE
@@ -57,6 +81,12 @@ speedster_zombie:
     to: 8
   weight: 15
   reward: 90
+  equipment:
+    weapon: WOODEN_SHOVEL
+    helmet: LEATHER_HELMET;shiny;color=WHITE
+    chestplate: LEATHER_CHESTPLATE;shiny;color=WHITE
+    leggings: LEATHER_LEGGINGS;shiny;color=WHITE
+    boots: LEATHER_BOOTS;shiny;color=WHITE
 
 lightning_zombie:
   type: ZOMBIE
@@ -69,6 +99,12 @@ lightning_zombie:
     to: 999
   weight: 15
   reward: 100
+  equipment:
+    weapon: IRON_SHOVEL
+    helmet: IRON_HELMET;shiny
+    chestplate: LEATHER_CHESTPLATE;shiny
+    leggings: LEATHER_LEGGINGS;shiny
+    boots: IRON_BOOTS;shiny
 
 thunderblot_zombie:
   type: ZOMBIE
@@ -81,6 +117,12 @@ thunderblot_zombie:
     to: 10
   weight: 30
   reward: 110
+  equipment:
+    weapon: DIAMOND_AXE;shiny
+    helmet: LEATHER_HELMET;color=RED
+    chestplate: LEATHER_CHESTPLATE;color=RED
+    leggings: LEATHER_LEGGINGS;color=RED
+    boots: LEATHER_BOOTS;color=RED
 
 shadow_assassin_zombie:
   type: ZOMBIE
@@ -93,6 +135,12 @@ shadow_assassin_zombie:
     to: 999
   weight: 20
   reward: 120
+  equipment:
+    weapon: NETHERITE_AXE;shiny
+    helmet: LEATHER_HELMET;color=BLACK
+    chestplate: LEATHER_CHESTPLATE;color=BLACK
+    leggings: LEATHER_LEGGINGS;color=BLACK
+    boots: LEATHER_BOOTS;color=BLACK
 
 rock_zombie:
   type: ZOMBIE
@@ -105,6 +153,12 @@ rock_zombie:
     to: 6
   weight: 20
   reward: 50
+  equipment:
+    weapon: EMPTY
+    helmet: IRON_HELMET
+    chestplate: CHAINMAIL_CHESTPLATE
+    leggings: CHAINMAIL_LEGGINGS
+    boots: IRON_BOOTS
 
 tank_zombie:
   type: ZOMBIE
@@ -117,6 +171,12 @@ tank_zombie:
     to: 999
   weight: 20
   reward: 70
+  equipment:
+    weapon: EMPTY
+    helmet: DIAMOND_HELMET
+    chestplate: NETHERITE_CHESTPLATE
+    leggings: NETHERITE_LEGGINGS
+    boots: DIAMOND_BOOTS
 
 common_skeleton:
   type: ZOMBIE
@@ -129,6 +189,12 @@ common_skeleton:
     to: 7
   weight: 30
   reward: 50
+  equipment:
+    weapon: BOW
+    helmet: EMPTY
+    chestplate: EMPTY
+    leggings: EMPTY
+    boots: EMPTY
 
 gold_skeleton:
   type: ZOMBIE
@@ -141,6 +207,12 @@ gold_skeleton:
     to: 10
   weight: 30
   reward: 65
+  equipment:
+    weapon: BOW
+    helmet: GOLDEN_HELMET
+    chestplate: GOLDEN_CHESTPLATE
+    leggings: GOLDEN_LEGGINGS
+    boots: GOLDEN_BOOTS
 
 iron_skeleton:
   type: ZOMBIE
@@ -153,6 +225,12 @@ iron_skeleton:
     to: 999
   weight: 30
   reward: 80
+  equipment:
+    weapon: BOW
+    helmet: IRON_HELMET
+    chestplate: IRON_CHESTPLATE
+    leggings: IRON_LEGGINGS
+    boots: IRON_BOOTS
 
 impact_skeleton:
   type: ZOMBIE
@@ -165,6 +243,12 @@ impact_skeleton:
     to: 999
   weight: 5
   reward: 100
+  equipment:
+    weapon: BOW;shiny
+    helmet: LEATHER_HELMET;shiny;color=ORANGE
+    chestplate: LEATHER_CHESTPLATE;shiny;color=YELLOW
+    leggings: LEATHER_LEGGINGS;shiny;color=ORANGE
+    boots: LEATHER_BOOTS;shiny;color=YELLOW
 
 sniper_skeleton:
   type: ZOMBIE
@@ -177,3 +261,9 @@ sniper_skeleton:
     to: 999
   weight: 5
   reward: 120
+  equipment:
+    weapon: BOW;shiny
+    helmet: LEATHER_HELMET;shiny;color=BLACK
+    chestplate: LEATHER_CHESTPLATE;shiny;color=BLACK
+    leggings: LEATHER_LEGGINGS;shiny;color=BLACK
+    boots: LEATHER_BOOTS;shiny;color=BLACK

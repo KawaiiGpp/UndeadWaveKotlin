@@ -50,7 +50,7 @@ class EnemyEquipment : ConfigSerializable {
 
     private fun serializeItem(item: ItemStack, name: String, section: ConfigurationSection) {
         if (item.type == Material.AIR) {
-            section[name] = null
+            section[name] = "EMPTY"
             return
         }
 
@@ -68,7 +68,10 @@ class EnemyEquipment : ConfigSerializable {
     }
 
     private fun deserializeItem(name: String, section: ConfigurationSection): ItemStack {
-        val rawMeta = section.getString(name)?.split(';') ?: return ItemStack(Material.AIR)
+        val text = requireNotNull(section.getString(name)) { "Cannot get the section for $name." }
+        if (text == "EMPTY") return ItemStack(Material.AIR)
+
+        val rawMeta = text.split(';')
         val material = Material.valueOf(rawMeta[0])
 
         require(material.isItem) { "Material for equipment must be an Item: $material" }
