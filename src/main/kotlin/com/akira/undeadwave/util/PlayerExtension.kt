@@ -21,4 +21,5 @@ fun Player.restore() {
     activePotionEffects.map { it.type }.forEach { removePotionEffect(it) }
     absorptionAmount = 0.0
     health = 20.0
+    foodLevel = 20
 }
