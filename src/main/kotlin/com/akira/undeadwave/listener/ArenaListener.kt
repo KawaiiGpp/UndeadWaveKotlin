@@ -1,9 +1,8 @@
 package com.akira.undeadwave.listener
 
-import com.akira.core.api.util.entity.MetadataEditor
-import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.main.arena.Arena
-import com.akira.undeadwave.main.enemy.Enemy
+import com.akira.undeadwave.util.arena
+import com.akira.undeadwave.util.asEnemy
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.entity.Player
@@ -16,37 +15,31 @@ import org.bukkit.event.entity.EntityDeathEvent
 class ArenaListener : Listener {
     @EventHandler
     fun onEnemyDeath(event: EntityDeathEvent) {
-        val entity = event.entity as? Player ?: return
-        val metadata = MetadataEditor(UndeadWave.instance, entity).get("enemy.arena")
-        val name = metadata?.asString() ?: return
+        val entity = event.entity
+        if (entity is Player) return
 
-        requireNotNull(
-            Arena.PresetMap.container.values.firstOrNull { it.name == name }
-        ) { "Unknown arena name from entity's metadata: $name. (EntityType: ${entity.type})" }
-            .run { handleEnemyDeath(entity) }
+        val arena = entity.arena ?: return
+        val enemy = entity.asEnemy ?: return
+
+        arena.session.gainCoins(enemy.reward)
+        arena.handleEnemyDeath(entity)
 
         event.droppedExp = 0
         event.drops.clear()
     }
 
     @EventHandler
-    fun onPlayerDeath(event: EntityDamageEvent) {
+    fun onPlayerDamaged(event: EntityDamageEvent) {
         val player = event.entity as? Player ?: return
-        if (event.finalDamage < player.health) return
-
         val arena = Arena.PlayerMap.get(player) ?: return
-        val cause = player.lastDamageCause
 
-        if (cause != null && cause is EntityDamageByEntityEvent) {
-            MetadataEditor(UndeadWave.instance, cause.damager).get("enemy.name")
-                ?.asString()
-                ?.let {
-                    val enemy = Enemy.getNonNull(it).displayName
-                    player.sendMessage { Component.text("你已被 $enemy 击杀！", NamedTextColor.RED) }
-                }
-        }
+        val enemy = (event as? EntityDamageByEntityEvent)?.damager?.asEnemy
+        enemy?.let { event.damage = it.damage * arena.session.difficulty.enemyDamageMultiplier }
 
+        if (event.finalDamage < player.health) return
         event.isCancelled = true
+
+        enemy?.let { player.sendMessage { Component.text("你已被 ${it.displayName} 击杀！", NamedTextColor.RED) } }
         arena.shutdown(false)
     }
 }
