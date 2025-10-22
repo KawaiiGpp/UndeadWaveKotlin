@@ -2,7 +2,6 @@ package com.akira.undeadwave.main.enemy
 
 import com.akira.core.api.EnhancedManager
 import com.akira.core.api.config.ConfigSerializable
-import com.akira.core.api.config.getNonNullSection
 import com.akira.core.api.util.entity.AttributeEditor
 import com.akira.core.api.util.entity.getFinalMaxHealth
 import com.akira.core.api.util.entity.getNonNullAttribute
@@ -29,6 +28,7 @@ class Enemy(val name: String) : ConfigSerializable {
     var weight by PropertyDelegate<Int>(); private set
     var reward by PropertyDelegate<Int>(); private set
     var equipment by PropertyDelegate<EnemyEquipment>(); private set
+    var extraModifiers by PropertyDelegate<EnemyExtraModifiers>(); private set
 
     override fun serialize(section: ConfigurationSection) {
         section["type"] = entityType.name
@@ -41,7 +41,8 @@ class Enemy(val name: String) : ConfigSerializable {
         section["weight"] = weight
         section["reward"] = reward
 
-        equipment.serialize(section.createSection("equipment"))
+        equipment.serialize(section)
+        extraModifiers.serialize(section)
     }
 
     override fun deserialize(section: ConfigurationSection) {
@@ -58,7 +59,8 @@ class Enemy(val name: String) : ConfigSerializable {
         weight = nonNull("weight", ConfigurationSection::getInt)
         reward = nonNull("reward", ConfigurationSection::getInt)
 
-        equipment = EnemyEquipment().apply { deserialize(section.getNonNullSection("equipment")) }
+        equipment = EnemyEquipment().apply { deserialize(section) }
+        extraModifiers = EnemyExtraModifiers().apply { deserialize(section) }
     }
 
     fun spawn(location: Location): LivingEntity {

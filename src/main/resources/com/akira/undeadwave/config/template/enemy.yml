@@ -15,6 +15,7 @@ common_zombie:
     chestplate: EMPTY
     leggings: EMPTY
     boots: EMPTY
+  extra_modifiers: []
 
 gold_zombie:
   type: ZOMBIE
@@ -33,6 +34,7 @@ gold_zombie:
     chestplate: GOLDEN_CHESTPLATE
     leggings: GOLDEN_LEGGINGS
     boots: GOLDEN_BOOTS
+  extra_modifiers: []
 
 iron_zombie:
   type: ZOMBIE
@@ -51,6 +53,7 @@ iron_zombie:
     chestplate: IRON_CHESTPLATE
     leggings: IRON_LEGGINGS
     boots: IRON_BOOTS
+  extra_modifiers: []
 
 diamond_zombie:
   type: ZOMBIE
@@ -69,6 +72,7 @@ diamond_zombie:
     chestplate: DIAMOND_CHESTPLATE
     leggings: DIAMOND_LEGGINGS
     boots: DIAMOND_BOOTS
+  extra_modifiers: []
 
 speedster_zombie:
   type: ZOMBIE
@@ -87,6 +91,7 @@ speedster_zombie:
     chestplate: LEATHER_CHESTPLATE;shiny;color=WHITE
     leggings: LEATHER_LEGGINGS;shiny;color=WHITE
     boots: LEATHER_BOOTS;shiny;color=WHITE
+  extra_modifiers: []
 
 lightning_zombie:
   type: ZOMBIE
@@ -105,6 +110,7 @@ lightning_zombie:
     chestplate: LEATHER_CHESTPLATE;shiny
     leggings: LEATHER_LEGGINGS;shiny
     boots: IRON_BOOTS;shiny
+  extra_modifiers: []
 
 thunderblot_zombie:
   type: ZOMBIE
@@ -123,6 +129,7 @@ thunderblot_zombie:
     chestplate: LEATHER_CHESTPLATE;color=RED
     leggings: LEATHER_LEGGINGS;color=RED
     boots: LEATHER_BOOTS;color=RED
+  extra_modifiers: []
 
 shadow_assassin_zombie:
   type: ZOMBIE
@@ -141,6 +148,7 @@ shadow_assassin_zombie:
     chestplate: LEATHER_CHESTPLATE;color=BLACK
     leggings: LEATHER_LEGGINGS;color=BLACK
     boots: LEATHER_BOOTS;color=BLACK
+  extra_modifiers: []
 
 rock_zombie:
   type: ZOMBIE
@@ -159,6 +167,8 @@ rock_zombie:
     chestplate: CHAINMAIL_CHESTPLATE
     leggings: CHAINMAIL_LEGGINGS
     boots: IRON_BOOTS
+  extra_modifiers:
+    - tank:GENERIC_KNOCKBACK_RESISTANCE:1.0:SET_BASE
 
 tank_zombie:
   type: ZOMBIE
@@ -177,6 +187,8 @@ tank_zombie:
     chestplate: NETHERITE_CHESTPLATE
     leggings: NETHERITE_LEGGINGS
     boots: DIAMOND_BOOTS
+  extra_modifiers:
+    - tank:GENERIC_KNOCKBACK_RESISTANCE:1.0:SET_BASE
 
 common_skeleton:
   type: ZOMBIE
@@ -195,6 +207,7 @@ common_skeleton:
     chestplate: EMPTY
     leggings: EMPTY
     boots: EMPTY
+  extra_modifiers: []
 
 gold_skeleton:
   type: ZOMBIE
@@ -213,6 +226,7 @@ gold_skeleton:
     chestplate: GOLDEN_CHESTPLATE
     leggings: GOLDEN_LEGGINGS
     boots: GOLDEN_BOOTS
+  extra_modifiers: []
 
 iron_skeleton:
   type: ZOMBIE
@@ -231,6 +245,7 @@ iron_skeleton:
     chestplate: IRON_CHESTPLATE
     leggings: IRON_LEGGINGS
     boots: IRON_BOOTS
+  extra_modifiers: []
 
 impact_skeleton:
   type: ZOMBIE
@@ -249,6 +264,7 @@ impact_skeleton:
     chestplate: LEATHER_CHESTPLATE;shiny;color=YELLOW
     leggings: LEATHER_LEGGINGS;shiny;color=ORANGE
     boots: LEATHER_BOOTS;shiny;color=YELLOW
+  extra_modifiers: []
 
 sniper_skeleton:
   type: ZOMBIE
@@ -267,3 +283,4 @@ sniper_skeleton:
     chestplate: LEATHER_CHESTPLATE;shiny;color=BLACK
     leggings: LEATHER_LEGGINGS;shiny;color=BLACK
     boots: LEATHER_BOOTS;shiny;color=BLACK
+  extra_modifiers: []

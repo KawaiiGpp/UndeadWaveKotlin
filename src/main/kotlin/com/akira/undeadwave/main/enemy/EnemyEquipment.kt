@@ -1,6 +1,7 @@
 package com.akira.undeadwave.main.enemy
 
 import com.akira.core.api.config.ConfigSerializable
+import com.akira.core.api.config.getNonNullSection
 import com.akira.core.api.util.item.ItemTagEditor
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.util.ColorMapper
@@ -22,19 +23,23 @@ class EnemyEquipment : ConfigSerializable {
     var boots by PropertyDelegate<ItemStack>(); private set
 
     override fun serialize(section: ConfigurationSection) {
-        serializeItem(weapon, "weapon", section)
-        serializeItem(helmet, "helmet", section)
-        serializeItem(chestplate, "chestplate", section)
-        serializeItem(leggings, "leggings", section)
-        serializeItem(boots, "boots", section)
+        val config = section.createSection("equipment")
+
+        serializeItem(weapon, "weapon", config)
+        serializeItem(helmet, "helmet", config)
+        serializeItem(chestplate, "chestplate", config)
+        serializeItem(leggings, "leggings", config)
+        serializeItem(boots, "boots", config)
     }
 
     override fun deserialize(section: ConfigurationSection) {
-        weapon = deserializeItem("weapon", section)
-        helmet = deserializeItem("helmet", section)
-        chestplate = deserializeItem("chestplate", section)
-        leggings = deserializeItem("leggings", section)
-        boots = deserializeItem("boots", section)
+        val config = section.getNonNullSection("equipment")
+
+        weapon = deserializeItem("weapon", config)
+        helmet = deserializeItem("helmet", config)
+        chestplate = deserializeItem("chestplate", config)
+        leggings = deserializeItem("leggings", config)
+        boots = deserializeItem("boots", config)
     }
 
     fun apply(entity: LivingEntity) {
