@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.GameMode
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 fun Player.restore() {
     resetMaxHealthModifiers()
@@ -46,3 +47,6 @@ val Entity.asEnemy: Enemy?
                 Enemy.get(it)
             ) { "Unknown enemy name from entity's metadata: $it (from ${this@asEnemy.type})" }
         }
+
+val Entity.lastDamager: Entity?
+    get() = (lastDamageCause as? EntityDamageByEntityEvent)?.damager

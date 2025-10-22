@@ -3,6 +3,7 @@ package com.akira.undeadwave.listener
 import com.akira.undeadwave.main.arena.Arena
 import com.akira.undeadwave.util.arena
 import com.akira.undeadwave.util.asEnemy
+import com.akira.undeadwave.util.lastDamager
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.entity.Player
@@ -21,7 +22,8 @@ class ArenaListener : Listener {
         val arena = entity.arena ?: return
         val enemy = entity.asEnemy ?: return
 
-        arena.session.gainCoins(enemy.reward)
+        if (entity.lastDamager == arena.session.player)
+            arena.session.gainCoins(enemy.reward)
         arena.handleEnemyDeath(entity)
 
         event.droppedExp = 0
