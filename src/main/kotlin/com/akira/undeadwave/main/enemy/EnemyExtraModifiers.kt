@@ -9,8 +9,8 @@ import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.LivingEntity
 
 class EnemyExtraModifiers : ConfigSerializable {
-    private val collection = mutableSetOf<Element>()
-    val elements get() = collection.toSet()
+    private val collection = mutableListOf<Element>()
+    val elements get() = collection.toList()
 
     override fun serialize(section: ConfigurationSection) =
         elements.map { "${it.name}:${it.attributeType}:${it.value}:${it.operation}" }
@@ -19,6 +19,8 @@ class EnemyExtraModifiers : ConfigSerializable {
     override fun deserialize(section: ConfigurationSection) =
         section.getStringList("extra_modifiers")
             .map { Element(it.split(':')) }.forEach(collection::add)
+
+    fun apply(entity: LivingEntity) = elements.forEach { it.apply(entity) }
 
     class Element(raw: List<String>) {
         val name = raw[0]

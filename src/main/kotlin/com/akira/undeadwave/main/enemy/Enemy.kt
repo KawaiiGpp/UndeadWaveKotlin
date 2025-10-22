@@ -82,6 +82,7 @@ class Enemy(val name: String) : ConfigSerializable {
         entity.setBaseMaxHealth(health)
         entity.health = entity.getFinalMaxHealth()
         equipment.apply(entity)
+        extraModifiers.apply(entity)
 
         modify("speed_bonus", Attribute.GENERIC_MOVEMENT_SPEED, speedBonus / 100.0, Operation.ADD_SCALAR)
         return entity
