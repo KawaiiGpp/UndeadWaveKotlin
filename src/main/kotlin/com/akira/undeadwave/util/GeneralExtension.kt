@@ -8,6 +8,9 @@ import com.akira.undeadwave.main.arena.Arena
 import com.akira.undeadwave.main.enemy.Enemy
 import net.kyori.adventure.text.Component
 import org.bukkit.GameMode
+import org.bukkit.Keyed
+import org.bukkit.NamespacedKey
+import org.bukkit.Registry
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -50,3 +53,6 @@ val Entity.asEnemy: Enemy?
 
 val Entity.lastDamager: Entity?
     get() = (lastDamageCause as? EntityDamageByEntityEvent)?.damager
+
+fun <T : Keyed> Registry<T>.getOrThrow(key: NamespacedKey): T =
+    requireNotNull(this.get(key)) { "Registry entry not found: $key" }

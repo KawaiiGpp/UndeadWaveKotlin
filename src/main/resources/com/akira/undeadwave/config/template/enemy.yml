@@ -259,7 +259,7 @@ impact_skeleton:
   weight: 5
   reward: 100
   equipment:
-    weapon: BOW;shiny
+    weapon: BOW;shiny;ench=punch:5
     helmet: LEATHER_HELMET;shiny;color=ORANGE
     chestplate: LEATHER_CHESTPLATE;shiny;color=YELLOW
     leggings: LEATHER_LEGGINGS;shiny;color=ORANGE

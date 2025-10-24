@@ -6,8 +6,11 @@ import com.akira.core.api.util.item.ItemTagEditor
 import com.akira.undeadwave.UndeadWave
 import com.akira.undeadwave.util.ColorMapper
 import com.akira.undeadwave.util.PropertyDelegate
+import com.akira.undeadwave.util.getOrThrow
 import org.bukkit.Color
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
+import org.bukkit.Registry
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.LivingEntity
@@ -68,6 +71,9 @@ class EnemyEquipment : ConfigSerializable {
         editor.get("color", PersistentDataType.STRING)
             ?.takeIf { it != "NONE" }
             ?.let { builder.append(";color=$it") }
+        editor.get("ench", PersistentDataType.STRING)
+            ?.takeIf { it != "NONE" }
+            ?.let { builder.append(";ench=$it") }
 
         section[name] = builder.toString()
     }
@@ -85,23 +91,54 @@ class EnemyEquipment : ConfigSerializable {
         val meta = item.itemMeta
         val editor = ItemTagEditor(UndeadWave.instance, meta)
 
-        if (rawMeta.contains("shiny")) {
-            meta.addEnchant(Enchantment.DURABILITY, 1, true)
-            editor.set("shiny", PersistentDataType.BOOLEAN, true)
-        } else {
-            editor.set("shiny", PersistentDataType.BOOLEAN, false)
-        }
+        fun find(name: String, param: Boolean = false): String? =
+            rawMeta.firstOrNull {
+                if (param) it.startsWith("$name=")
+                else it == name
+            }?.let {
+                return if (!param) it
+                else it.split('=')[1]
+            }
+
+        editor.set(
+            "shiny", PersistentDataType.BOOLEAN,
+
+            find("shiny", false)?.also {
+                meta.addEnchant(Enchantment.DURABILITY, 1, true)
+            } != null
+        )
+
+        editor.set(
+            "ench", PersistentDataType.STRING,
+
+            find("ench", true)?.also {
+                it.split(',').forEach { raw ->
+                    val split = raw.split(':')
+                    val enchantment = Registry.ENCHANTMENT.getOrThrow(NamespacedKey.minecraft(split[0]))
+                    val level = split[1].toInt()
+
+                    meta.addEnchant(enchantment, level, true)
+                }
+            } ?: "NONE"
+        )
 
         if (meta is LeatherArmorMeta) {
-            rawMeta.firstOrNull { it.startsWith("color=") }?.let {
-                val text = it.substring(6)
-                val color = ColorMapper.get(text) ?: text.split(',').run {
-                    Color.fromRGB(this[0].toInt(), this[1].toInt(), this[2].toInt())
-                }
+            editor.set(
+                "color", PersistentDataType.STRING,
 
-                meta.setColor(color)
-                editor.set("color", PersistentDataType.STRING, text)
-            } ?: editor.set("color", PersistentDataType.STRING, "NONE")
+                find("color", true)?.also {
+                    val color = ColorMapper.get(it)
+                        ?: it.split(',').run {
+                            Color.fromRGB(
+                                this[0].toInt(),
+                                this[1].toInt(),
+                                this[2].toInt()
+                            )
+                        }
+
+                    meta.setColor(color)
+                } ?: "NONE"
+            )
         }
 
         editor.apply(item)
