@@ -16,6 +16,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: false
+    cost: 800
 
   vampiric_blade:
     material: IRON_SWORD
@@ -34,6 +35,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: false
+    cost: 2000
 
   fate_sword:
     material: IRON_SWORD
@@ -52,6 +54,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: true
+    cost: 2200
 
   lucky_sword:
     material: STONE_SWORD
@@ -70,6 +73,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: false
+    cost: 500
 
   wood_knife:
     material: WOODEN_SWORD
@@ -88,6 +92,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: false
+    cost: 50
 
   iron_knife:
     material: IRON_SWORD
@@ -106,6 +111,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: false
+    cost: 400
 
   diamond_knife:
     material: DIAMOND_SWORD
@@ -124,6 +130,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: true
+    cost: 1200
 
   shock_blade:
     material: WOODEN_SWORD
@@ -142,6 +149,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: true
+    cost: 1200
 
   storm_blade:
     material: IRON_SWORD
@@ -160,6 +168,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: false
     allow_sweep: true
+    cost: 2200
 
   long_sword:
     material: STONE_SWORD
@@ -178,6 +187,7 @@ melee:
     sweep_damage_bonus: 30
     true_damage: false
     allow_sweep: true
+    cost: 600
 
   wind_sword:
     material: IRON_SWORD
@@ -196,6 +206,7 @@ melee:
     sweep_damage_bonus: 105
     true_damage: false
     allow_sweep: true
+    cost: 1200
 
   whirlwind_sword:
     material: IRON_SWORD
@@ -214,6 +225,7 @@ melee:
     sweep_damage_bonus: 180
     true_damage: false
     allow_sweep: true
+    cost: 2800
 
   piercing_knife:
     material: WOODEN_SWORD
@@ -232,6 +244,7 @@ melee:
     sweep_damage_bonus: 0
     true_damage: true
     allow_sweep: false
+    cost: 800
 
   true_knife:
     material: STONE_SWORD
@@ -250,6 +263,7 @@ melee:
     sweep_damage_bonus: 50
     true_damage: true
     allow_sweep: true
+    cost: 1600
 
   truth_sword:
     material: IRON_SWORD
@@ -268,6 +282,7 @@ melee:
     sweep_damage_bonus: 100
     true_damage: true
     allow_sweep: true
+    cost: 2800
 
 ranged:
   fire_launcher:
@@ -292,6 +307,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: true
     repeat_hit: false
+    cost: 1600
 
   lava_launcher:
     material: "GOLDEN_SHOVEL"
@@ -316,6 +332,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: true
     repeat_hit: false
+    cost: 3800
 
   ancient_rocket_launcher:
     material: "DIAMOND_SHOVEL"
@@ -339,6 +356,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: true
     repeat_hit: false
+    cost: 3800
 
   rocket_launcher:
     material: "STONE_SHOVEL"
@@ -362,6 +380,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: true
     repeat_hit: false
+    cost: 1800
 
   fate_gun:
     material: "IRON_PICKAXE"
@@ -385,6 +404,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 1400
 
   gambler_gun:
     material: "WOODEN_PICKAXE"
@@ -408,6 +428,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 700
 
   copper_miner:
     material: "STONE_PICKAXE"
@@ -435,6 +456,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 700
 
   gold_miner:
     material: "GOLDEN_PICKAXE"
@@ -462,6 +484,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 2200
 
   netherite_miner:
     material: "NETHERITE_PICKAXE"
@@ -489,6 +512,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 4700
 
   pistol:
     material: "WOODEN_HOE"
@@ -510,6 +534,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 50
 
   gold_pistol:
     material: "GOLDEN_HOE"
@@ -536,6 +561,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: false
     repeat_hit: false
+    cost: 500
 
   diamond_shotgun:
     material: "DIAMOND_HOE"
@@ -564,6 +590,7 @@ ranged:
     hit_box_multiplier: 2.0
     piercing: true
     repeat_hit: true
+    cost: 4200
 
   shotgun:
     material: "IRON_HOE"
@@ -592,6 +619,7 @@ ranged:
     hit_box_multiplier: 2.0
     piercing: true
     repeat_hit: true
+    cost: 700
 
   sniper:
     material: "WOODEN_SHOVEL"
@@ -615,6 +643,7 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: true
     repeat_hit: false
+    cost: 1400
 
   infernal_sniper:
     material: "NETHERITE_SHOVEL"
@@ -638,3 +667,4 @@ ranged:
     hit_box_multiplier: 1.0
     piercing: true
     repeat_hit: false
+    cost: 3000

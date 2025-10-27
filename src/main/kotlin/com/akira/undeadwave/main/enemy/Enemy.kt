@@ -69,7 +69,7 @@ class Enemy(val name: String) : ConfigSerializable {
 
         fun modify(name: String, type: Attribute, value: Double, operation: Operation) =
             AttributeEditor(entity.getNonNullAttribute(type), UndeadWave.instance.name)
-                .add("ingame.enemy.modifiers.$name", value, operation)
+                .add("enemy.modifiers.$name", value, operation)
 
         entity.isPersistent = true
         entity.removeWhenFarAway = false
