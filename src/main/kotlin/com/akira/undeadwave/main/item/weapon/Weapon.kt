@@ -1,8 +1,11 @@
 package com.akira.undeadwave.main.item.weapon
 
 import com.akira.core.api.util.general.rollChance
+import com.akira.core.api.util.item.ItemTagEditor
+import com.akira.undeadwave.UndeadWave
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
 abstract class Weapon(
     val name: String,
@@ -19,7 +22,9 @@ abstract class Weapon(
     fun calculateDamage(crit: Boolean): Double =
         if (!crit) damage else damage * (1 + (critDamage / 100.0))
 
-    abstract fun buildItem(): ItemStack
+    fun matches(item: ItemStack): Boolean =
+        ItemTagEditor.forItemMeta(UndeadWave.instance, item)
+            .get("weapon.name", PersistentDataType.STRING) == name
 
-    abstract fun matches(item: ItemStack): Boolean
+    abstract fun buildItem(): ItemStack
 }

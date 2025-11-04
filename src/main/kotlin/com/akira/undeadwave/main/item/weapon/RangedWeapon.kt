@@ -69,10 +69,6 @@ class RangedWeapon(
         return item
     }
 
-    override fun matches(item: ItemStack): Boolean =
-        ItemTagEditor.forItemMeta(UndeadWave.instance, item)
-            .get("weapon.name", PersistentDataType.STRING) == name
-
     private fun generateItemLore(): List<String> =
         mutableListOf<String>().apply {
             add("§f伤害：§c${damage.format()}")
