@@ -1,5 +1,6 @@
 package com.akira.undeadwave.main.item.weapon
 
+import com.akira.core.api.util.general.rollChance
 import com.akira.core.api.util.item.ItemBuilder
 import com.akira.core.api.util.item.ItemTagEditor
 import com.akira.core.api.util.math.format
@@ -40,7 +41,21 @@ class MeleeWeapon(
         lifeStealRatio.requiresNonNegative()
     }
 
-    fun handle() {}
+    fun handle(data: MeleeDamageData) {
+        val handler = MeleeDamageHandler(this, data)
+
+        data.crit = rollCrit()
+        data.trueDamage = trueDamage
+
+        if (handler.handleCooldown()) return
+        if (handler.handleAttack()) return
+
+        handler.handleCritParticle()
+        handler.handleLifeSteal()
+        handler.handleKnockback()
+    }
+
+    fun rollLifeSteal() = rollChance(lifeStealChance)
 
     override fun buildItem(): ItemStack {
         val item = ItemBuilder()
